@@ -15,10 +15,9 @@ export class SkillMatrixPage {
   async getQualityAssuranceDesignations() {
     // Find the heading for Quality Assurance
     const qaHeading = await this.page.getByRole('heading', { level: 3, name: 'Quality Assurance' });
-    // Go to the parent, then select the next sibling (container with designations)
+    // Go container with designations
     const qaParent = await qaHeading.locator('..');
     const qaSiblings = await qaParent.locator('xpath=following-sibling::*');
-    // The first sibling is the container with designations
     const designationContainer = qaSiblings.nth(0);
     // All direct children divs (each is a designation container)
     return designationContainer.locator('div > div > span');
