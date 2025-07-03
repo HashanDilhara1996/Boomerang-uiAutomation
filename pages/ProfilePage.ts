@@ -1,10 +1,36 @@
-import { Page, expect } from '@playwright/test';
+import { Page, expect, Locator } from '@playwright/test';
 
 export class ProfilePage {
   readonly page: Page;
+  // Element locators
+  readonly employeeNameButton: Locator;
+  readonly profileMenuItem: Locator;
+  readonly nameHeading: Locator;
+  readonly tagDesignationDept: Locator;
+  readonly generalHeading: Locator;
+  readonly employmentInfoHeading: Locator;
+  readonly assignedChiefLabel: Locator;
+  readonly assignedChiefValue: Locator;
+  readonly designationLabel: Locator;
+  readonly designationValue: Locator;
+  readonly departmentLabel: Locator;
+  readonly departmentValue: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.employeeNameButton = this.page.locator('xpath=/html/body/div[1]/div/div[2]/div/div[3]/ul/li/button');
+    this.profileMenuItem = this.page.getByRole('menuitem', { name: /Profile/i });
+    this.nameHeading = this.page.getByRole('heading', { name: /Employee/i });
+    this.tagDesignationDept = this.page.getByText(/Permanent.*Quality Assurance Engineer.*Quality Assurance/i);
+    this.generalHeading = this.page.getByRole('heading', { name: /General/i });
+    this.employmentInfoHeading = this.page.getByRole('heading', { name: /Employment Information/i });
+    this.assignedChiefLabel = this.page.getByText('Assigned chief', { exact: true });
+    this.designationLabel = this.page.getByText('Designation', { exact: true });
+    this.departmentLabel = this.page.getByText('Department', { exact: true });
+    // Values are relative to their labels
+    this.assignedChiefValue = this.assignedChiefLabel.locator('xpath=following-sibling::p[1]');
+    this.designationValue = this.designationLabel.locator('xpath=following-sibling::p[1]');
+    this.departmentValue = this.departmentLabel.locator('xpath=following-sibling::p[1]');
   }
 
   async gotoFromSidebar() {
